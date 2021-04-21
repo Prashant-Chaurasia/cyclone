@@ -1,0 +1,9 @@
+venv/*
+env/*
+Dockerfile
+.git
+.gitignore
+.cache
+.pytest_cache
+**/*.pyc
+tests/*

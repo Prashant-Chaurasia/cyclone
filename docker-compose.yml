@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  server:
+    build: .
+    command: /bin/ash run_server.sh
+    volumes:
+      - .:/cyclone
+    ports:
+      - 7007:7007
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+      - redis
+    restart: always
+  worker:
+    build: .
+    command: celery -A service.server.celery_app worker --concurrency=1 -l INFO
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - server
+    restart: always
+  scheduler:
+    build: .
+    command: celery -A service.server.celery_app beat -l INFO
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - server
+      - worker
+    restart: always
+  db:
+    image: postgres:12.3-alpine
+    volumes:
+      - ${PWD}/.postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cyclone
+      - PGDATA=/var/lib/postgresql/data/pgData
+    restart: always
+  redis:
+    image: redis:6.2.1-alpine
