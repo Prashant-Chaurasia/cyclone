@@ -15,7 +15,6 @@ class CycloneScrapper:
     def save_cyclone_info(self, region, detail_link):
         external_id, name = detail_link.text.strip().split(' - ')
         if external_id:
-
             external_link = self.start_url + detail_link['href']
             cyclone = db_utils.insert_cyclone(region = region, name = name, external_id = external_id, external_link = external_link)
             return cyclone
@@ -27,10 +26,10 @@ class CycloneScrapper:
         
         for cyclone_html in soup.findAll('div', attrs={'class':'basin_storms'}):
             region = cyclone_html.find('h3').text
-            cyclone_detail_link = cyclone_html.find('a')
+            cyclone_detail_links = cyclone_html.findAll('a')
             
-            if cyclone_detail_link:
-                cyclone = self.save_cyclone_info(region, cyclone_detail_link)
+            for detail_link in cyclone_detail_links:
+                cyclone = self.save_cyclone_info(region, detail_link)
                 
                 if cyclone:
                     current_cyclones.append(cyclone)
@@ -81,14 +80,17 @@ class CycloneScrapper:
         soup = BeautifulSoup(cyclone_info_page.text, 'html.parser')
         tables = soup.findAll('table')
 
-        # Forecast tracks
-        forecast_tracks = self.generate_forecast_tracks(tables[0])
-        forcast_time = self.get_forecast_time(soup)
-        db_utils.check_and_insert_forecast_tracks(cyclone.id, forcast_time, forecast_tracks)
+        if tables:
+            # Forecast tracks - only if the info is avalaible then we can save in the db
+            if (soup.find('h4', string=re.compile('Time of Latest Forecast.*')) and len(tables) == 2):
+                forecast_tracks = self.generate_forecast_tracks(tables[0])
+                forcast_time = self.get_forecast_time(soup)
+                db_utils.check_and_insert_forecast_tracks(cyclone.id, forcast_time, forecast_tracks)
         
-        # Track history
-        track_historys = self.generate_track_historys(tables[1])
-        db_utils.check_and_insert_track_historys(cyclone.id, track_historys)
+            # Track history - 
+            track_history_table = tables[0] if len(tables) == 1 else tables[1]
+            track_historys = self.generate_track_historys(track_history_table)
+            db_utils.check_and_insert_track_historys(cyclone.id, track_historys)
 
 
     def process(self):

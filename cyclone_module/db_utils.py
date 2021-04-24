@@ -46,6 +46,7 @@ def update_object_with_values(obj, values):
 
 def check_and_insert_forecast_tracks(cyclone_id, forecast_at, forecast_tracks):
     ft_list = []
+    
     for forecast_track in forecast_tracks:
         ft = update_object_with_values(ForecastTrack(), forecast_track)
         ft.cyclone_id = cyclone_id
@@ -57,11 +58,12 @@ def check_and_insert_forecast_tracks(cyclone_id, forecast_at, forecast_tracks):
     db.session.execute(statement)
     db.session.commit()
 
-    return {'Success'}
+    return
 
 
 def check_and_insert_track_historys(cyclone_id, track_historys):
     th_list = []
+    
     for track_history in track_historys:
         th = update_object_with_values(TrackHistory(), track_history)
         th.cyclone_id = cyclone_id
@@ -72,7 +74,7 @@ def check_and_insert_track_historys(cyclone_id, track_historys):
     db.session.execute(statement)
     db.session.commit()
 
-    return {'Success'}
+    return
 
 
 def get_forecast_track_of_cyclone(cyclone_id):
