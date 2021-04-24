@@ -48,6 +48,8 @@ def index():
     return response
 
 
-# # Any url with /stories will be routed to the stories_resources
-# from api.stories_module import stories_resources
-# app.register_blueprint(stories_resources, url_prefix='/stories')
+# Any url with /cyclones will be routed to the cyclone_module.apis
+from cyclone_module import cyclone_apis
+app.register_blueprint(cyclone_apis, url_prefix='/cyclones')
+
+

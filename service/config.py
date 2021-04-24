@@ -17,8 +17,8 @@ class Config(object):
 
     BEAT_SCHEDULE = {
         'test-celery': {
-            'task': 'tasks.tasks.print_x',
-            # Every minute
-            'schedule': 30.0,
+            'task': 'tasks.tasks.scrape_and_save_data',
+            # Every 10 seconds
+            'schedule': crontab(),
         }
     }

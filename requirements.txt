@@ -19,3 +19,5 @@ Werkzeug==1.0.1
 celery
 gunicorn
 redis
+requests
+beautifulsoup4
