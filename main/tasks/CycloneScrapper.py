@@ -1,10 +1,9 @@
 from service.server import app, db, celery_app
-import requests
 from bs4 import BeautifulSoup
-from models import Cyclone
 from datetime import datetime
-from cyclone_module import db_utils
+from main.cyclone_module import db_utils
 import re
+import requests
 
 class CycloneScrapper:
 

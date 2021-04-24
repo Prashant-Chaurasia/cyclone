@@ -7,3 +7,8 @@ Dockerfile
 .pytest_cache
 **/*.pyc
 tests/*
+celerybeat-schedule.db
+*~
+__pycache__
+.DS_Store
+.postgres_data/

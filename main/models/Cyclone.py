@@ -2,7 +2,7 @@ from service.server import db
 import datetime
 from sqlalchemy import Boolean, Column, Numeric, String
 from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMP, BYTEA
-from libs import helpers
+from main.libs import helpers
 
 
 class Cyclone(db.Model):

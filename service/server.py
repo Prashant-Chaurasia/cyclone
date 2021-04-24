@@ -15,7 +15,7 @@ def create_app():
 def create_celery(app):
     app.config['CELERY_BROKER_URL'] = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
     # create context tasks in celery
-    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'], include=['tasks.tasks'])
+    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'], include=['main.tasks.tasks'])
     celery.conf.update(app.config)
     celery.conf.beat_schedule = app.config['BEAT_SCHEDULE']
     TaskBase = celery.Task
@@ -49,7 +49,7 @@ def index():
 
 
 # Any url with /cyclones will be routed to the cyclone_module.apis
-from cyclone_module import cyclone_apis
+from main.cyclone_module import cyclone_apis
 app.register_blueprint(cyclone_apis, url_prefix='/cyclones')
 
 

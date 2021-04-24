@@ -1,8 +1,8 @@
 #!/bin/ash
-# source env.sh
+
 # run required migrations
 echo 'Running migrations'
-python manage.py db upgrade
+# python manage.py db upgrade
 
 return_code=$?
 if [ $return_code -ne 0 ]
@@ -15,5 +15,4 @@ fi
 # pytest -v
 
 # Run server
-gunicorn -c gunicorn_config.py service.server:app 
-# & celery -A service.server.celery_app worker --concurrency=1 -l INFO
+gunicorn -c gunicorn_config.py service.server:app
