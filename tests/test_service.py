@@ -39,6 +39,13 @@ def test_parse_datetime(client):
     assert isinstance(parsed_dt, datetime)
 
 
+def test_serializer_serialize(client):
+    forecast_tracks = [ForecastTrack(id = '1', cyclone_id = 'cy123', forecast_at = datetime.utcnow(), forecast_hour = '12', latitude = -4.3, 
+                    longitude = -12.5, intensity = 35)]
+    forecast_tracks = serializers.serialize(forecast_tracks)
+    assert forecast_tracks
+
+
 def test_generate_forecast_track(client):
     test_html = "<table> <tbody>\
         <tr>\
