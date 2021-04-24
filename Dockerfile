@@ -11,7 +11,6 @@ RUN pip install setuptools --upgrade
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 
-
 RUN mkdir -p /cyclone
 WORKDIR /cyclone
 ADD . /cyclone

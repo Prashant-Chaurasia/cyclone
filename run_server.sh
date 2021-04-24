@@ -2,7 +2,7 @@
 
 # run required migrations
 echo 'Running migrations'
-# python manage.py db upgrade
+python manage.py db upgrade
 
 return_code=$?
 if [ $return_code -ne 0 ]
@@ -12,7 +12,7 @@ then
 fi
 
 # Run all the tests
-# pytest -v
+pytest -v
 
 # Run server
 gunicorn -c gunicorn_config.py service.server:app

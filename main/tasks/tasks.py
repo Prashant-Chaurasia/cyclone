@@ -6,4 +6,7 @@ def scrape_and_save_data():
     home_page_url = "https://rammb-data.cira.colostate.edu/tc_realtime/"
     scrapper = CycloneScrapper(home_page_url)
     scrapper.process()
-    print("I am beating every minute")
+    
+@celery_app.task
+def test_task():
+	return True

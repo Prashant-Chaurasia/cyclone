@@ -1,7 +1,7 @@
 from service.server import app, db, celery_app
 from bs4 import BeautifulSoup
-from datetime import datetime
 from main.cyclone_module import db_utils
+from main.libs import helpers
 import re
 import requests
 
@@ -52,7 +52,7 @@ class CycloneScrapper:
     def get_forecast_time(self, soup):
         forcast_time_tag = soup.find('h4', string=re.compile('Time of Latest Forecast.*'))
         forcast_time_str = re.compile(': ').split(forcast_time_tag.text)[1]
-        forcast_time = datetime.strptime(forcast_time_str, '%Y-%m-%d %H:%M')
+        forcast_time = helpers.parse_datetime(forcast_time_str)
         return forcast_time
 
 
@@ -67,7 +67,7 @@ class CycloneScrapper:
                 value = column.get_text()
                 if index == 0:
                     # converting synoptic_time to datetime
-                    value = datetime.strptime(value, '%Y-%m-%d %H:%M')
+                    value = helpers.parse_datetime(value)
                 
                 track_history[keys[index]] = value
             track_historys.append(track_history)
