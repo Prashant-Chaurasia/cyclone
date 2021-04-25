@@ -19,6 +19,6 @@ class Config(object):
         'test-celery': {
             'task': 'main.tasks.tasks.scrape_and_save_data',
             # Every 10 seconds
-            'schedule': crontab(),
+            'schedule': crontab(minute=0, hour='*/1'),
         }
     }
